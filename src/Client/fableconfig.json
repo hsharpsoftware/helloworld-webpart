@@ -1,6 +1,7 @@
 {
     "projFile": "./react-todomvc.fsx",
     "sourceMaps": true,
+    "module" : "amd",
     "rollup": {
         "dest": "./out/bundle.js",
         "external": ["react", "react-dom"],
@@ -8,6 +9,5 @@
             "react": "React",
             "react-dom": "ReactDOM"
         }
-    },
-    "module": "es2015"
+    }
 }
