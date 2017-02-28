@@ -1,10 +1,7 @@
 {
-  "name": "navigation",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../node_modules/fable-compiler --target production",
-    "watch": "node ../../node_modules/fable-compiler -d -w",
-    "start": "node ../../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "build": "node ../../node_modules/fable-compiler",
+    "start": "node ../server"
   }
 }
