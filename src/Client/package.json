@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
+    "build": "node C:/Users/david.podhola/Documents/S/Fable/build/fable",
     "start": "node ../server"
   }
 }
