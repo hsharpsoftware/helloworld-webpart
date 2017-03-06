@@ -15,4 +15,19 @@ type TodoApp(props) =
     do base.setInitState()
 
     member this.render () =
-        R.div [] []
+        R.div [] [
+            R.header [ ClassName "header" ] [
+                R.h1 [] [ R.str "todos" ]
+                R.input [
+                    ClassName "new-todo"
+                    Placeholder "What needs to be done?"
+                    AutoFocus true
+                ] []
+            ]
+        ]
+
+let renderTodoApp (elementId:string) = 
+    ReactDom.render(
+        R.com<TodoApp,_,_> [] [],
+        Browser.document.getElementById(elementId)
+    )
