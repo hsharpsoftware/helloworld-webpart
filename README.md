@@ -8,6 +8,7 @@ journey from [helloworld-webpart](https://dev.office.com/sharepoint/docs/spfx/we
 git clone the repo
 npm i
 npm i -g gulp
+build
 gulp
 ```
 
@@ -24,3 +25,14 @@ gulp test - TODO
 gulp serve - TODO
 gulp bundle - TODO
 gulp package-solution - TODO
+
+### Run
+
+```bash
+cd src\Client
+fable --watch
+```
+
+```bash
+gulp serve
+```
