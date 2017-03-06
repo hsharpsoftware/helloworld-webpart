@@ -3,7 +3,6 @@
     "target": "es5",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "jsx": "react",
     "sourceMap": true,

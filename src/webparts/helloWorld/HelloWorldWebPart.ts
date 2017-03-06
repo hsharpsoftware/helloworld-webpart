@@ -1,28 +1,32 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
+import { escape } from '@microsoft/sp-lodash-subset';
 
+import styles from './HelloWorld.module.scss';
 import * as strings from 'helloWorldStrings';
-import HelloWorld from './components/HelloWorld';
-import { IHelloWorldProps } from './components/IHelloWorldProps';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
+import { renderTodoApp } from "../../Client/out/react-component";
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<IHelloWorldProps > = React.createElement(
-      HelloWorld,
-      {
-        description: this.properties.description
-      }
-    );
-
-    ReactDom.render(element, this.domElement);
+    this.domElement.innerHTML = `
+      <div class="${styles.helloWorld}" id="rootApp">
+        <div class="${styles.container}">
+          <div class="ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}">
+            <div class="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+              <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
+              <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
+              <p class="ms-font-l ms-fontColor-white">${escape(this.properties.description)}</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+      renderTodoApp("rootApp");
   }
 
   protected get dataVersion(): Version {

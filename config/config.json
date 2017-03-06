@@ -6,7 +6,9 @@
       "outputPath": "./dist/hello-world.bundle.js"
     }
   ],
-  "externals": {},
+  "externals": {
+    
+  },
   "localizedResources": {
     "helloWorldStrings": "webparts/helloWorld/loc/{locale}.js"
   }
