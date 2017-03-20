@@ -1,0 +1,7 @@
+{
+    "projFile": "./react-component.fsx",
+    "sourceMaps": true,
+    "module" : "es2015",
+    "ecma" : "es2015",
+    "outDir": "./out"
+}
