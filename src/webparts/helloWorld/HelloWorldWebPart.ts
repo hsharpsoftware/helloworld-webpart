@@ -9,9 +9,22 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './HelloWorld.module.scss';
 import * as strings from 'helloWorldStrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
-import { renderTodoApp } from "../../Client/out/react-component";
+import { renderTodoApp, testWebTitle } from "../../Client/out/react-component";
+import pnp from "sp-pnp-js";
+import {Web} from "sp-pnp-js";
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
+
+  public onInit(): Promise<void> {
+
+    return super.onInit().then(_ => {
+
+      pnp.setup({
+        spfxContext: this.context
+      });
+      
+    });
+  }
 
   public render(): void {
     this.domElement.innerHTML = `
@@ -22,11 +35,15 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
               <span class="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
               <p class="ms-font-l ms-fontColor-white">Customize SharePoint experiences using Web Parts.</p>
               <p class="ms-font-l ms-fontColor-white">${escape(this.properties.description)}</p>
+              <a href="https://aka.ms/spfx" class="${styles.button}">
+                <span class="${styles.label}">Learn more...</span>
+              </a>
             </div>
           </div>
         </div>
       </div>`;
       renderTodoApp("rootApp");
+    testWebTitle();
   }
 
   protected get dataVersion(): Version {

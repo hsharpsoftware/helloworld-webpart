@@ -34,7 +34,7 @@ type TodoApp(props) =
 
         R.div [] [
             R.header [ ClassName "header" ] [
-                R.h1 [] [ R.str (sprintf "todos %A" web?Title ) ]
+                R.h1 [] [ R.str (sprintf "todos on %s" (if isNull web then "localhost" else web?Title.ToString() ) ) ]
                 R.input [
                     ClassName "new-todo"
                     Placeholder "What needs to be done?"
@@ -48,3 +48,15 @@ let renderTodoApp (elementId:string) =
         R.com<TodoApp,_,_> [] [],
         Browser.document.getElementById(elementId)
     )
+
+let testWebTitle () =
+    async {            
+        let! _web = 
+            (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
+            |> Promise.map( fun w -> (w :?> sharepoint.webs.Web ) )              
+            |> Async.AwaitPromise
+
+        Fable.Import.Browser.console.log "_web"
+        Fable.Import.Browser.console.log _web
+        Fable.Import.Browser.console.log "----------------------------------------------"
+    } |> Async.StartImmediate
