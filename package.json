@@ -35,7 +35,8 @@
     "gulp": "~3.9.1",
     "http-server": "^0.9.0",
     "source-map-loader": "^0.1.5",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "fable-import-sp-pnp-js": "^0.0.2"
   },
   "scripts": {
     "build": "gulp bundle",
