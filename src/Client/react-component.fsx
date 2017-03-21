@@ -15,23 +15,24 @@ open R.Props
 
 type TodoApp(props) =
     inherit React.Component<obj,obj>(props)
-    do base.setInitState()
 
     let mutable web: sharepoint.webs.Web = null
 
     let getWeb () =
-        async {            
-            let! _web = 
-                (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
-                |> Promise.map( fun w -> (w :?> sharepoint.webs.Web ) )              
-                |> Async.AwaitPromise
+        let _web = ref null
 
-            web <- _web
-        } |> Async.StartImmediate
+        (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
+        |> Promise.iter( 
+            fun w -> 
+                _web := (w :?> sharepoint.webs.Web ) 
+                web <- !_web
+        )              
 
-    member this.render () =
-        getWeb()
+    do 
+        base.setInitState()
+        getWeb ()
 
+    member this.render () =        
         R.div [] [
             R.header [ ClassName "header" ] [
                 R.h1 [] [ R.str (sprintf "todos on %s" (if isNull web then "localhost" else web?Title.ToString() ) ) ]
@@ -50,13 +51,10 @@ let renderTodoApp (elementId:string) =
     )
 
 let testWebTitle () =
-    async {            
-        let! _web = 
-            (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
-            |> Promise.map( fun w -> (w :?> sharepoint.webs.Web ) )              
-            |> Async.AwaitPromise
+        (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
+        |> Promise.iter( 
+            fun w -> 
+                Fable.Import.Browser.console.log "_web"
+                Fable.Import.Browser.console.log (w :?> sharepoint.webs.Web ) 
+        )              
 
-        Fable.Import.Browser.console.log "_web"
-        Fable.Import.Browser.console.log _web
-        Fable.Import.Browser.console.log "----------------------------------------------"
-    } |> Async.StartImmediate

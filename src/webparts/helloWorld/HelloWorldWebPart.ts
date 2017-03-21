@@ -43,7 +43,6 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         </div>
       </div>`;
       renderTodoApp("rootApp");
-    testWebTitle();
   }
 
   protected get dataVersion(): Version {
