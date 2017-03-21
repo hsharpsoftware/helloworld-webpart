@@ -13,29 +13,21 @@ open Fable.PowerPack
 module R = Fable.Helpers.React
 open R.Props
 
-type TodoApp(props) =
-    inherit React.Component<obj,obj>(props)
+type [<Pojo>] SampleAppProps = { title: string }    
 
-    let mutable web: sharepoint.webs.Web = null
+type [<Pojo>] SampleAppState = { title: string }  
 
-    let getWeb () =
-        let _web = ref null
-
-        (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
-        |> Promise.iter( 
-            fun w -> 
-                _web := (w :?> sharepoint.webs.Web ) 
-                web <- !_web
-        )              
+type SampleApp(props) =
+    inherit React.Component<SampleAppProps,SampleAppState>(props)
 
     do 
-        base.setInitState()
-        getWeb ()
+        base.setInitState( { title = "(connecting...)" } )
 
-    member this.render () =        
+    member this.render () =   
+        let state = this.state     
         R.div [] [
             R.header [ ClassName "header" ] [
-                R.h1 [] [ R.str (sprintf "todos on %s" (if isNull web then "localhost" else web?Title.ToString() ) ) ]
+                R.h1 [] [ R.str (sprintf "todos on %s" (state.title) ) ]
                 R.input [
                     ClassName "new-todo"
                     Placeholder "What needs to be done?"
@@ -43,18 +35,18 @@ type TodoApp(props) =
                 ] []
             ]
         ]
-
-let renderTodoApp (elementId:string) = 
-    ReactDom.render(
-        R.com<TodoApp,_,_> [] [],
-        Browser.document.getElementById(elementId)
-    )
-
-let testWebTitle () =
+    member this.componentDidMount () = 
         (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
         |> Promise.iter( 
             fun w -> 
-                Fable.Import.Browser.console.log "_web"
-                Fable.Import.Browser.console.log (w :?> sharepoint.webs.Web ) 
-        )              
+                let web = (w :?> sharepoint.webs.Web )
+                this.setState( { title = web?Title.ToString() } ) 
+        )                  
+
+let renderApp (elementId:string) = 
+    ReactDom.render(
+        R.com<SampleApp,_,_> { title = "(loading...)" } [],
+        Browser.document.getElementById(elementId)
+    )
+  
 

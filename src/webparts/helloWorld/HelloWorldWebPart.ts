@@ -9,7 +9,7 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './HelloWorld.module.scss';
 import * as strings from 'helloWorldStrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
-import { renderTodoApp, testWebTitle } from "../../Client/out/react-component";
+import { renderApp } from "../../Client/out/react-component";
 import pnp from "sp-pnp-js";
 import {Web} from "sp-pnp-js";
 
@@ -42,7 +42,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
           </div>
         </div>
       </div>`;
-      renderTodoApp("rootApp");
+      renderApp("rootApp");
   }
 
   protected get dataVersion(): Version {
