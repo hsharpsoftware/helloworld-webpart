@@ -9,6 +9,7 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
 open Fable.PowerPack
+open HSharp2
 
 module R = Fable.Helpers.React
 open R.Props
@@ -36,12 +37,16 @@ type SampleApp(props) =
             ]
         ]
     member this.componentDidMount () = 
-        (pnp.Globals.sp.web.select( [|"Title"|] ) :> sharepoint.queryable.Queryable).get()  
-        |> Promise.iter( 
-            fun w -> 
-                let web = (w :?> sharepoint.webs.Web )
-                this.setState( { title = web?Title.ToString() } ) 
-        )                  
+        if isWorkbench then
+            this.setState( { title = "localhost" } ) 
+        else
+            ( pnp.Globals.sp.web 
+            |> selectQ( [|"Title"|] ) ).get()  
+            |> Promise.iter( 
+                fun w -> 
+                    let web = (w :?> sharepoint.webs.Web )
+                    this.setState( { title = web?Title.ToString() } ) 
+            )                  
 
 let renderApp (elementId:string) = 
     ReactDom.render(
