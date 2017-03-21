@@ -40,12 +40,11 @@ type SampleApp(props) =
         if isWorkbench then
             this.setState( { title = "localhost" } ) 
         else
-            ( pnp.Globals.sp.web 
-            |> selectQ( [|"Title"|] ) ).get()  
+            pnp.Globals.sp.web 
+            |> selectQ( [|"Title"|] )
+            |> get<sharepoint.webs.Web>
             |> Promise.iter( 
-                fun w -> 
-                    let web = (w :?> sharepoint.webs.Web )
-                    this.setState( { title = web?Title.ToString() } ) 
+                fun w -> this.setState( { title = w?Title.ToString() } ) 
             )                  
 
 let renderApp (elementId:string) = 
